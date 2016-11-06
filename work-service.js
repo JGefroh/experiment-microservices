@@ -1,11 +1,11 @@
 var serviceBus = require('./service-bus.js');
 var interestedEvents = [
-  'person-worked'
+  'person-joined'
 ];
 
 
 exports.notify = function(eventName, params) {
-  console.info("Work");
+  console.info("Doing work for person...");
   serviceBus.notify('person-work:done');
 }
 
