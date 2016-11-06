@@ -1,11 +1,12 @@
 var serviceRegistry = require('./service-registry.js');
+var serviceBus = require('./service-bus.js');
+
 registerAppServices();
 run();
 
 function run() {
-  serviceRegistry.notify('person-joined');
-  serviceRegistry.notify('person-worked');
-  serviceRegistry.notify('person-left');
+  serviceBus.notify('person-joined');
+  serviceBus.notify('person-worked');
 }
 
 function registerAppServices() {

@@ -1,5 +1,5 @@
 var interestedEvents = [
-  'person-left'
+  'person-work:done'
 ];
 
 exports.notify = function(eventName, params) {
