@@ -10,9 +10,9 @@ exports.unregister = function(alias) {
 }
 
 exports.notify = function(eventName, params) {
-  for (var service in services) {
-    if (services[service].getInterestedEvents().indexOf(eventName) !== -1) {
-      services[service].notify(eventName, params);
+  for (var serviceName in services) {
+    if (services[serviceName].getInterestedEvents().indexOf(eventName) !== -1) {
+      services[serviceName].notify(eventName, params);
     }
   }
 }

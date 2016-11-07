@@ -1,10 +1,10 @@
 {
-  "name": "experiment-microservice",
+  "name": "goodbye-microservice",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js & node greeting/index.js & node goodbye/index.js & node work/index.js &",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
