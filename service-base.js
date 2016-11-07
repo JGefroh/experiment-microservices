@@ -43,6 +43,21 @@ function ServiceBase(name) {
     onFunctions[eventName].push(callback);
   }
 
+  service.notify = function(eventName, payload) {
+    var request = http.request({
+      host: '127.0.0.1',
+      port: '8080',
+      path: '/notify',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    request.write(JSON.stringify({name: eventName, payload: payload}));
+    request.end();
+  }
+
 
   function listen(port) {
     var server = http.createServer(handleRequest);
