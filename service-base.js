@@ -1,4 +1,7 @@
 var serviceRegistry = require('./service-registry.js');
+var http = require('http');
+
+
 function ServiceBase(name) {
   var service = this;
   var interestedEvents = [];
@@ -10,7 +13,18 @@ function ServiceBase(name) {
   }
 
   service.register = function() {
-    serviceRegistry.register(this, service.getName());
+    return http.get({
+      host: '127.0.0.1',
+      port: '8080',
+      path: '/register'
+    }, function(response) {
+      response.on('data', function(data) {
+        console.info(data);
+      })
+    }, function(response) {
+      console.info("ERROR");
+    });
+    // serviceRegistry.register(this, service.getName());
   }
 
   service.getInterestedEvents = function() {

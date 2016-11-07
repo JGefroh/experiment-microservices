@@ -1,4 +1,5 @@
 var serviceRegistry = require('./service-registry.js');
+serviceRegistry.listen(8080);
 
 run();
 
@@ -9,7 +10,7 @@ function run() {
 function simulateRequests() {
   var randomWaitTime = Math.random() * 1000;
   setTimeout(function() {
-    serviceRegistry.notify('person-joined');
+    // serviceRegistry.notify('person-joined');
     simulateRequests();
   }, randomWaitTime);
 }
