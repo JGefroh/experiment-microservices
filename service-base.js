@@ -7,24 +7,30 @@ function ServiceBase(name) {
   var interestedEvents = [];
   var onFunctions = {};
   var name = name;
+  var host = '127.0.0.1';
+  var port = (Math.floor((Math.random() * 60000)) + 500);
 
   service.getName = function() {
     return name;
   }
 
+  service.getHost = function() {
+    return host;
+  }
+
   service.register = function() {
-    return http.get({
+    var request = http.request({
       host: '127.0.0.1',
       port: '8080',
-      path: '/register'
-    }, function(response) {
-      response.on('data', function(data) {
-        console.info(data);
-      })
-    }, function(response) {
-      console.info("ERROR");
+      path: '/register',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
-    // serviceRegistry.register(this, service.getName());
+
+    request.write(JSON.stringify({name: service.getName(), host: service.getHost(), port: port}));
+    request.end();
   }
 
   service.getInterestedEvents = function() {
@@ -37,6 +43,32 @@ function ServiceBase(name) {
     onFunctions[eventName].push(callback);
   }
 
+
+  function listen(port) {
+    var server = http.createServer(handleRequest);
+    function handleRequest(request, response) {
+      if (request.url.indexOf('notify') !== -1) {
+        var finalData = '';
+        request.on('data', function(data) {
+          finalData += data;
+        })
+        request.on('end', function(data) {
+          event = JSON.parse(finalData);
+          response.end();
+          if (onFunctions[event.name]) {
+            for (var i = 0; i < onFunctions[event.name].length; i++) {
+              onFunctions[event.name][i](event.name, event.payload);
+            }
+          }
+        });
+      }
+    }
+    server.listen(port, function() {
+      console.info("Listening on " + port);
+    });
+  }
+
+  listen(port);
   return service;
 }
 
