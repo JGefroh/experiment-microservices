@@ -42,6 +42,9 @@ exports.notify = function(eventName, params) {
       headers: {
         'Content-Type': 'application/json',
       }
+    })
+    .on('error', function() {
+      delete services[serviceName];
     });
     request.write(JSON.stringify({name: eventName, payload: params}));
     request.end();
